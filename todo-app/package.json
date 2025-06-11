@@ -1,0 +1,11 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "npx live-server"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

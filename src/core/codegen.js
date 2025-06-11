@@ -49,49 +49,9 @@ export function extractFilesFromCode(code) {
   while ((match = fileRegex.exec(code)) !== null) {
     const filePath = match[2].trim();
     const fileContent = match[3].trim();
-    
+
     if (filePath && fileContent) {
       files.push({ filePath, fileContent });
-    }
-  }
-
-  // Fallback: if no files found with the above pattern, try simpler pattern
-  if (files.length === 0) {
-    const simpleRegex = /```(\w*)\n([\s\S]*?)```/g;
-    let simpleMatch;
-    let fileIndex = 1;
-    
-    while ((simpleMatch = simpleRegex.exec(code)) !== null) {
-      const language = simpleMatch[1].toLowerCase();
-      const fileContent = simpleMatch[2].trim();
-      if (fileContent) {
-        // Try to guess file type from language or content
-        let extension = '.txt';
-        let filename = `file${fileIndex}`;
-        
-        if (language === 'html' || fileContent.includes('<!DOCTYPE html') || fileContent.includes('<html')) {
-          extension = '.html';
-          filename = fileIndex === 1 ? 'index' : `page${fileIndex}`;
-        } else if (language === 'css' || fileContent.includes('body {') || fileContent.includes('color:') || fileContent.includes('background-color')) {
-          extension = '.css';
-          filename = 'styles';
-        } else if (language === 'javascript' || language === 'js' || fileContent.includes('function') || fileContent.includes('const ') || fileContent.includes('let ')) {
-          extension = '.js';
-          filename = 'script';
-        } else if (language === 'python' || language === 'py') {
-          extension = '.py';
-          filename = 'main';
-        } else if (language === 'json') {
-          extension = '.json';
-          filename = 'data';
-        }
-        
-        files.push({ 
-          filePath: `${filename}${extension}`, 
-          fileContent 
-        });
-        fileIndex++;
-      }
     }
   }
 
